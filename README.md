@@ -1,4 +1,5 @@
-NIH Toolbox Data Preprocessing Pipeline
+Set of functions to organize datafiles that are exported from the NIH Cognitive Toolbox assessment battery delivered via ipadOS
+
 
 This project automates the organization and processing of NIH Toolbox iPad data (v3). It takes raw CSV exports from multiple Research Assistants, cleans them, and organizes them into a research-ready directory structure.
 
@@ -7,40 +8,15 @@ Directory Structure
 datadump/
 Place all raw CSV files here. The script looks for any file matching ScoresExport*.csv.
 
-processed_subject_data/
-The script auto-generates this folder. It contains:
+Script auto-generates processed_subject_data/ folder that contains sub-folders for each participant
 
-Individual subject sub-folders (e.g., 1001/1001_raw_scores.csv).
-
-Master_Dataset_Wide.csv (The final file for statistical analysis).
-
-nihTB_dataprocess.py
-The library file containing the logic and functions (load_all_data, generate_wide_dataset, etc.).
+nihTB_data_processing_functions.py
+Script containing the logic and functions currently implemented for organizing and processing data. 
 
 run_pipeline.py
-The execution script. Run this file to start the job.
+Script for executing functions. Run this file to start organization.
 
-Setup
-
-Install Python 3 (if not already installed).
-
-Install the required libraries:
-
-pip install pandas
-
-
-Usage
-
-Collect Data:
-    et the .csv export files from your RAs.
-
-Stage Data:
-    Drop all ScoresExport_*.csv files into the datadump/ folder (Note: File naming doesn't matter as long as it starts with "ScoresExport" and ends in ".csv").
-
-Run the Pipeline:
-    Open a terminal in this folder and run:
-        python run_pipeline.py
-
+Setup requires python 3 and pandas library
 
 View Results:
     For Analysis: Open processed_subject_data/Master_Dataset_Wide.csv in Excel, SPSS, or R.
