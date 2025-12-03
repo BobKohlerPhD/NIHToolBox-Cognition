@@ -7,10 +7,7 @@ The script `nihTB_organization.py` automates the organization and processing of 
 
 ## Directory Structure
 
-The script expects the following structure and will generate a `processed_subject_data` folder automatically that contains individual subdirectories for each participant. Within each participant folder, two CSV files are generated:
-
-`subjectnumber_items.csv`
-`subjectnumber_scores.csv`
+The script expects the following structure and will generate a `processed_subject_data` folder automatically that contains individual subdirectories for each participant. 
 
 ```text
 .
@@ -18,3 +15,10 @@ The script expects the following structure and will generate a `processed_subjec
 ├── processed_subject_data/       # Script auto-generates this folder with sub-folders for each participant
 ├── nihTB_data_processing_functions.py
 └── run_pipeline.py
+```
+
+Within each participant folder, two CSV files are generated:
+
+
+`subjectnumber_items.csv`
+`subjectnumber_scores.csv`
