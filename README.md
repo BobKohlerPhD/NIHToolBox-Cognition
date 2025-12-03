@@ -1,19 +1,20 @@
-Set of functions to organize datafiles that are exported from the NIH Cognitive Toolbox assessment battery delivered via ipadOS
+# NIH Cognitive Toolbox Data Organizer
 
+## Overview
+This set of functions organizes datafiles exported from the **NIH Cognitive Toolbox Assessment Battery**. Scripts were created based on output from tasks delivered via ipadOS. 
 
-This project automates the organization and processing of NIH Toolbox iPad data (v3). It takes raw CSV exports from multiple Research Assistants, cleans them, and organizes them into a research-ready directory structure.
+The script `nihTB_organization.py` automates the organization and processing of CSV exports for both summary score and raw item outputs. All csv files can be placed in a folder named `datadump`
 
-Directory Structure
+## Directory Structure
 
-datadump/
-Place all raw CSV files here. The script looks for any file matching ScoresExport*.csv.
+The script expects the following structure and will generate a `processed_subject_data` folder automatically that contains individual subdirectories for each participant. Within each participant folder, two CSV files are generated:
 
-Script auto-generates processed_subject_data/ folder that contains sub-folders for each participant
+`subjectnumber_items.csv`
+`subjectnumber_scores.csv`
 
-nihTB_data_processing_functions.py
-Script containing the logic and functions currently implemented for organizing and processing data. 
-
-run_pipeline.py
-Script for executing functions. Run this file to start organization.
-
-Setup requires python 3 and pandas library
+```text
+.
+├── datadump/                     # Place all raw CSV files here (looks for 'ScoresExport*.csv')
+├── processed_subject_data/       # Script auto-generates this folder with sub-folders for each participant
+├── nihTB_data_processing_functions.py
+└── run_pipeline.py
