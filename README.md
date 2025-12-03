@@ -7,7 +7,7 @@ The script `run_nihTB_organization.py` automates the organization and processing
 
 Because the data contains timestamps, duplicate rows can be removed. The script `run_nihTB_organization.py` is designed to retain the only the first instance of duplicate data for the individual and master CSV files that are generated.
 
-Windows OS executable files for both `run_nihTB_organization.py` and `run_nihTB_organization.py` are available for users who do not have python installed locally.
+Windows OS executable files for both `run_nihTB_organization.py` and `run_nihTB_verify.py` are available for users who do not have python installed locally.
 
 ## Directory Structure
 The script expects the following structure and will generate a `processed_subject_data` folder automatically that contains individual subdirectories for each participant. 
