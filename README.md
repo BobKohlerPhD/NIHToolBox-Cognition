@@ -25,10 +25,10 @@ Within each participant folder, two CSV files are generated:
 ├── processed_subject_data/
 │   ├── sub-001/
 │   │   ├── sub-001_scores.csv
-│   │   └── sub-001_responses.csv
+│   │   └── sub-001_items.csv
 │   └── sub-002/
 │       ├── sub-002_scores.csv
-│       └── sub-002_responses.csv
+│       └── sub-002_items.csv
 ```
 
 ## Verify New Data Files
