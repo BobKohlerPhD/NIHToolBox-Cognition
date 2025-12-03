@@ -1,4 +1,4 @@
-# Ignore Data Folders to protect data 
+# Ignore data folders to protect any instance of data uploading  
 datadump/
 processed_subject_data/
 
@@ -9,3 +9,8 @@ Thumbs.db
 # Ignore python cache files 
 __pycache__/
 *.py[cod]
+
+# Ignore build artifacts
+build/
+dist/
+*.spec
