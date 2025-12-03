@@ -1,21 +1,39 @@
 import nihTB_data_processing_functions as nih  
-# --- CONFIGURATION ---
-# Path to the folder containing your raw ScoresExport CSVs
+
 RAW_DATA_DIR = 'datadump'  
-# Path where the organized subject folders will be created
 OUTPUT_DIR = 'processed_subject_data' 
 
 def main():
+    print("STARTING NIH TOOLBOX DATA ORGANIZATION")
 
-    # Load Data
-    full_data = nih.load_all_data(RAW_DATA_DIR)
+    # Process ScoresExport csv files 
+    print("\n Processing ScoresExport Files...")
+    scores_df = nih.load_data_by_pattern(RAW_DATA_DIR, 'ScoresExport*.csv')
     
-    if full_data.empty:
-        print("No data found.")
-        return
+    if not scores_df.empty:
+        # Save Master Scores
+        nih.save_master_file(scores_df, OUTPUT_DIR, "MASTER_SCORES-NIHTB.csv")
+        
+        # Split Scores by Subject
+        nih.split_into_subject_folders(scores_df, OUTPUT_DIR, "_scores.csv")
+    else:
+        print("  - No Score data found. Moving to ItemExport files.")
 
-    # Create individual subject Folders
-    nih.create_subject_folders(full_data, OUTPUT_DIR)
+
+    # Process ItemExport csv files
+    print("\n Processing ItemExport Files...")
+    items_df = nih.load_data_by_pattern(RAW_DATA_DIR, 'ItemExport*.csv')
+    
+    if not items_df.empty:
+        # Save Master ItemExport file. Can be quite large.
+        nih.save_master_file(items_df, OUTPUT_DIR, "MASTER_ITEMS-NIHTB.csv")
+        
+        # Split Items by Subject
+        nih.split_into_subject_folders(items_df, OUTPUT_DIR, "_items.csv")
+    else:
+        print("  - No Item data found.")
+        
+    print("\n **DATA PROCESSING COMPLETE**")
 
 if __name__ == "__main__":
     main()

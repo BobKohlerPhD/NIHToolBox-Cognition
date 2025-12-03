@@ -2,64 +2,74 @@ import pandas as pd
 import os
 import glob
 
-def load_all_data(input_dir):
-    # Looks for ALL files starting with 'ScoresExport' and ending in '.csv' within the input_dir specified 
-    # This allows multiple RAs to send .csv datafiles that can be placed into a single folder 
-    search_path = os.path.join(input_dir, 'ScoresExport*.csv')
-    
+def load_data_by_pattern(input_dir, file_pattern):
+    #Function to load CSV files matching a pattern of 'ScoresExport*.csv' or 'ItemExport*.csv').
+    search_path = os.path.join(input_dir, file_pattern)
     files = glob.glob(search_path)
     
     if not files:
-        print(f"No files found in: {search_path}")
-        print("Make sure .csv files are in the 'datadump' folder.")
+        print(f"  [!] No files found matching: {file_pattern}")
         return pd.DataFrame()
     
-    print(f"Found {len(files)} files.")
+    print(f"  - Found {len(files)} files matching '{file_pattern}'.")
     dfs = []
     for f in files:
         try:
-            temp_df = pd.read_csv(f)
+            temp_df = pd.read_csv(f, low_memory=False) 
             dfs.append(temp_df)
-            print(f"  - Files Loaded: {os.path.basename(f)}")
         except Exception as e:
             print(f"  ! Error reading {f}: {e}")
             
     if not dfs:
         return pd.DataFrame()
 
-    # Combine all into one DataFrame
     combined_df = pd.concat(dfs, ignore_index=True)
-    
-    # Remove exact duplicates from cumulative exports or if the same file was sent and added to data dump folder twice
     combined_df.drop_duplicates(inplace=True)
     
     return combined_df
 
-def create_subject_folders(df, output_dir):
-    # Create a directory for each subject for data split
+def save_master_file(df, output_dir, filename):
+
+    #Saves the master dataframe to the output directory.
+    if df.empty:
+        return
+        
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        
+    master_path = os.path.join(output_dir, filename)
+    df.to_csv(master_path, index=False)
+    print(f"  - Master data file saved: {filename}")
+
+def split_into_subject_folders(df, output_dir, file_suffix):
+
+   # Splits the dataframe by 'PID' and saves individual files. File_suffixes are '_scores.csv' and '_items.csv'
+
+    if df.empty:
+        return
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
     unique_pids = df['PID'].unique()
+    total_rows = len(df)
     
+    count = 0
     for pid in unique_pids:
-        # Create directory structure: NIH_CognitiveTB/processed_subject_data/SUBJECT#/
         pid_clean = str(pid).strip()
-        # Skip any NA or empty ID columns 
         if not pid_clean or pid_clean.lower() == 'nan':
             continue
             
+        # Create subject folder
         subject_dir = os.path.join(output_dir, pid_clean)
-        
-        # make directory if it doesnt exist but add check to see
         os.makedirs(subject_dir, exist_ok=True)
 
-        # Extract rows for each subject
+        # Filter data for this subject
         subject_data = df[df['PID'] == pid]
         
-        # Save individual CSV files in a participants directory. Will overwrite an existing file so that it has most up to date information
-        save_path = os.path.join(subject_dir, f'{pid_clean}_raw_scores.csv')
+        # Save file with specific suffix
+        save_path = os.path.join(subject_dir, f'{pid_clean}{file_suffix}')
         subject_data.to_csv(save_path, index=False)
+        count += 1
 
-    print(f"  - Data has been updated for {len(unique_pids)} subjects.")
-
+    print(f"  - Processed {count} subjects for {file_suffix} (Rows: {total_rows})")
