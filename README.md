@@ -19,6 +19,9 @@ The script expects the following structure and will generate a `processed_subjec
 
 Within each participant folder, two CSV files are generated:
 
-
-`subjectnumber_items.csv`
-`subjectnumber_scores.csv`
+```text
+├── processed_subject_data/ 
+    ├── subjectid/
+       ├── subjectnumber_items.csv
+       ├── subjectnumber_scores.csv
+```
