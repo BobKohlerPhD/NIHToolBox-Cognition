@@ -10,7 +10,7 @@ Because the data contains timestamps, duplicate rows can be removed. The script 
 Windows OS executable files for both `run_nihTB_organization.py` and `run_nihTB_verify.py` are available for users who do not have python installed locally.
 
 ## Directory Structure
-The script will generate a `processed_subject_data` folder automatically that contains individual subdirectories for each participant. The folder `datadump` MUST BE CREATED BY THE USER and should contain all raw exported CSV files.
+The script will generate a `processed_subject_data` folder automatically that contains individual subdirectories for each participant. The folder `datadump/` MUST BE CREATED BY THE USER and should contain all raw exported CSV files.
 
 ```text
 ├── datadump/                             # Place all raw CSV files here (looks for 'ItemExports*.csv' and 'ScoresExport*.csv')
