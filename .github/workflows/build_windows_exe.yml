@@ -32,7 +32,7 @@ jobs:
 
     # 5. Build Verifier Script
     - name: Build Verifier Exe
-      run: pyinstaller --onefile verify_nihTB_data.py
+      run: pyinstaller --onefile run_nihTB_verify.py
 
     # 6. Upload finished .exe files for download
     - name: Upload Artifacts
