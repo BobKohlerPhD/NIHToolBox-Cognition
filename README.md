@@ -18,7 +18,7 @@ The script `run_nihTB_organization.py` will generate a `processed_subject_data` 
 ├── processed_plots_and_descriptives/     # Script auto-generates this folder with sub-folders for each task and an 'error_summary.csv' file
 ├── nihTB_data_processing_functions.py    # Functions called when running `run_nihTB_organization`
 ├── run_nihTB_organization.py             # Primary script that is run in terminal 
-└── run_nihTB_verify.py                   # Verification script that is run in terminal after organization script is run
+├── run_nihTB_verify.py                   # Verification script that is run in terminal after organization script is run
 └── run_nihTB_analysis.py                 # Identifies error codes, plots histograms of data by task, and creates descriptive stats .txt for each task
 ```
 
