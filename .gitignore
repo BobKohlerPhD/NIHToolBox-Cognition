@@ -1,6 +1,7 @@
 # Ignore data folders to protect any instance of data uploading  
 datadump/
 processed_subject_data/
+processed_plots_and_descriptives/
 
 # Ignore System Files
 .DS_Store
