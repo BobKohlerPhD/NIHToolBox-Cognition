@@ -66,7 +66,7 @@ def generate_error_summary(df, output_dir):
     
     # Columns to keep (Look for PID or PIN)
     error_report_cols = [
-        'PID', 'PIN', 
+        'PID', 
         'InstrumentTitle', 
         'InstrumentBreakoff', 
         'InstrumentStatus2', 
