@@ -64,7 +64,7 @@ def generate_error_summary(df, output_dir):
     # using fillna(-1) ensures empty cells are counted as errors
     mask_errors = (df['InstrumentBreakoff'].fillna(-1) != 2) | (df['InstrumentStatus2'].fillna(-1) != 3)
     
-    # Columns to keep (Look for PID or PIN)
+    # Columns to keep (Look for PID)
     error_report_cols = [
         'PID', 
         'InstrumentTitle', 
