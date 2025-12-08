@@ -38,6 +38,6 @@ Within each participant folder, two CSV files are generated:
 
 The script `run_nihTB_verify.py` will compare the newly generated CSV files for each participant with their data contained in the raw files that were added to the `datadump/` folder. 
 
-## Identify Error Codes, Plot Score Distributions, and Calculate Simple Descriptives 
+## Identify Errors, Plot Distributions, & Calculate Descriptives 
 
 The script `run_nihTB_analysis.py` will identify error codes based on NIH Toolbox documentation and then adds the entire row of data to `error_summary.csv`. A new folder is created named `processed_plots_and_descriptives/` that contains the summary CSV file, and subfolders for each of the tasks. Within each task subfolder are 9 histograms and a `*_Descriptives.txt` with simple statistics for each task based on the `MASTER_SCORES-NIHTB.csv`. 
