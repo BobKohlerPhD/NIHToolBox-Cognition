@@ -22,7 +22,7 @@ The script `run_nihTB_organization.py` will generate a `processed_subject_data` 
 └── run_nihTB_analysis.py                 # Identifies error codes, plots histograms of data by task, and creates descriptive stats .txt for each task
 ```
 
-Within each participant folder, two CSV files are generated:
+Within each participant folder, two CSV files are generated after running `run_nihTB_organization.py`:
 
 ```text
 ├── processed_subject_data/
