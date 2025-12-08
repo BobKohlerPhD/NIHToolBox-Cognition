@@ -2,11 +2,12 @@
 datadump/
 processed_subject_data/
 processed_plots_and_descriptives/
-.vscode/
+
 
 # Ignore System Files
 .DS_Store
 Thumbs.db
+.vscode
 
 # Ignore python cache files 
 __pycache__/
