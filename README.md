@@ -18,6 +18,7 @@ The script will generate a `processed_subject_data` folder automatically that co
 ├── nihTB_data_processing_functions.py    # Functions called when running `run_nihTB_organization`
 ├── run_nihTB_organization.py             # Primary script that is run in terminal 
 └── run_nihTB_verify.py                   # Verification script that is run in terminal after organization script is run
+└── run_nihTB_analysis.py                 # Identifies error codes, plots histograms of data by task, and creates descriptive stats .txt for each task
 ```
 
 Within each participant folder, two CSV files are generated:
@@ -35,3 +36,7 @@ Within each participant folder, two CSV files are generated:
 ## Verify New Data Files
 
 The script `run_nihTB_verify.py` will compare the newly generated CSV files for each participant with their data contained in the raw files that were added to the `datadump/` folder. 
+
+## Identify Error Codes, Plot Score Distributions, and Calculate Simple Descriptives 
+
+The script `run_nihTB_analysis.py` will identify error codes based on NIH Toolbox documentation and then adds the entire row of data to `error_summary.csv`. A new folder is created named `processed_plots_and_descriptives/` that contains the summary CSV file, and subfolders for each of the tasks. Within each task subfolder are 9 histograms and a `*_Descriptives.txt` with simple statistics for each task based on the `MASTER_SCORES-NIHTB.csv`. 
