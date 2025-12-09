@@ -1,9 +1,15 @@
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import numpy as np
 
+################################
 ##### Paths and task names #####
+################################
+
 CSV_PATH = 'processed_subject_data/MASTER_SCORES-NIHTB.csv'
 OUTPUT_BASE = 'processed_plots_and_descriptives'
 TASK_COL = 'InstrumentTitle'
@@ -19,10 +25,12 @@ SCORE_VARIABLES = [
     'FullyAdjustedTScore',
     'NationalPercentileAgeAdjusted', 
     'ComputedScore', 
-    'ItemCount'
-]
+    'ItemCount' ]
 
+
+##########################################
 ##### Mappings for Error Definitions #####
+##########################################
 
 # InstrumentBreakoff - Whether a test was interrupted #
 #o 1 = Yes [Incomplete, early termination]
@@ -47,8 +55,9 @@ REASON_MAP = {1: 'Environmental', 2: 'Cognitive', 3: 'Physical', 4: 'Language', 
 
 
 
-
+###############################
 ##### Secondary Functions #####
+###############################
 
 def load_data(path):
     if not os.path.exists(path):
@@ -61,10 +70,9 @@ def generate_error_summary(df, output_dir):
     print("Generating Error Summary (error_summary.csv)")
     
     # Breakoff != 2 (No) OR Status != 3 (Complete)
-    # using fillna(-1) ensures empty cells are counted as errors
-    mask_errors = (df['InstrumentBreakoff'].fillna(-1) != 2) | (df['InstrumentStatus2'].fillna(-1) != 3)
+    mask_errors = (df['InstrumentBreakoff'].fillna(-1) != 2) | (df['InstrumentStatus2'].fillna(-1) != 3)  # using fillna(-1) ensures empty cells are counted as errors
     
-    # Columns to keep (Look for PID)
+    # Error reporting columns 
     error_report_cols = [
         'PID', 
         'InstrumentTitle', 
@@ -107,19 +115,60 @@ def generate_error_summary(df, output_dir):
     else:
         print(" -> No errors.")
 
+def generate_missing_row_report(df, output_dir):
+    print("Checking for subjects completely missing from specific tasks...")
+    
+    # All PIDs and all tasks
+    all_pids = set(df['PID'].unique())
+    all_tasks = df[TASK_COL].dropna().unique()
+    all_tasks.sort()
+
+    missing_data_list = []
+
+    for task in all_tasks:
+        # PID by task 
+        task_subset = df[df[TASK_COL] == task]
+        task_pids = set(task_subset['PID'].unique())
+
+        # All PIDs - Task PIDs
+        missing_pids = all_pids - task_pids
+
+        if missing_pids:
+            # Sort for readability
+            sorted_missing = sorted(list(missing_pids))
+            # Create a PID string for missing data 
+            missing_str = ", ".join(str(p) for p in sorted_missing)
+            
+            missing_data_list.append({
+                'InstrumentTitle': task,
+                'Missing_Count': len(missing_pids),
+                'Missing_PIDs': missing_str
+            })
+
+    # Save 
+    if missing_data_list:
+        out_df = pd.DataFrame(missing_data_list)
+        out_df = out_df.sort_values(by='Missing_Count', ascending=False)   # Sort by missing count 
+        
+        out_path = os.path.join(output_dir, 'missing_rows_report.csv')
+        out_df.to_csv(out_path, index=False)
+        print(f" -> Found missing rows in {len(out_df)} tasks. See 'missing_rows_report.csv'.")
+    else:
+        print(" -> All subjects have a row for every task (No missing rows).")
+
+#########################
 ##### Main function #####
+#########################
 
 def analyze_instruments(df, output_dir):
-
-   #  Main function for descriptive stats and plotting
     if TASK_COL not in df.columns:
         print(f"Error: Column '{TASK_COL}' not found.")
         return
 
-    # All unique tasks (v3.1 vs no v3.1 tag)
+    # All unique tasks, even v3.1 vs no v3.1 
     all_tasks = df[TASK_COL].dropna().unique()
-    # Sort alphabetically
-    all_tasks.sort()
+    
+    all_tasks.sort() # Sort alphabetically
 
     print(f"Found {len(all_tasks)} unique tasks.")
 
@@ -129,8 +178,8 @@ def analyze_instruments(df, output_dir):
         if subset.empty:
             continue
         
-        # Sanitize folder name
-        safe_name = "".join([c for c in instrument if c.isalpha() or c.isdigit() or c==' ']).strip()
+     
+        safe_name = "".join([c for c in instrument if c.isalpha() or c.isdigit() or c==' ']).strip()    # fix folder names
         target_dir = os.path.join(output_dir, safe_name)
         os.makedirs(target_dir, exist_ok=True)
 
@@ -145,9 +194,10 @@ def analyze_instruments(df, output_dir):
                     f.write(f"{var} -> NOT FOUND.\n" + "-"*30 + "\n")
                     continue
 
-                # Force Numeric
+                
                 series_raw = subset[var]
-                series_numeric = pd.to_numeric(series_raw, errors='coerce')
+                series_numeric = pd.to_numeric(series_raw, errors='coerce') ## Force Numeric
+                series_numeric = series_numeric.replace([np.inf, -np.inf], np.nan)
                 
                 nan_count = series_numeric.isna().sum()
                 clean_series = series_numeric.dropna()
@@ -187,8 +237,9 @@ def analyze_instruments(df, output_dir):
                         print(f"Could not plot {var}: {e}")
                         plt.close()
 
-
+#####################
 ##### Execution #####
+#####################
 
 if __name__ == "__main__":
     os.makedirs(OUTPUT_BASE, exist_ok=True)
@@ -196,13 +247,16 @@ if __name__ == "__main__":
     try:
         main_df = load_data(CSV_PATH)
         
-        # 1. Generate Error Report (Includes ALL instruments)
+        # Generate Missing Row Report (NEW)
+        generate_missing_row_report(main_df, OUTPUT_BASE)
+
+        # Generate Error Report 
         generate_error_summary(main_df, OUTPUT_BASE)
         
-        # 2. Analyze Instruments (Includes ALL instruments)
+        # Analyze Instruments 
         analyze_instruments(main_df, OUTPUT_BASE)
         
         print("\nScript has finished successfully.")
         
     except Exception as e:
-        print(f"\ Error: {e}")
+        print(f"\n Error: {e}")

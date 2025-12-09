@@ -2,7 +2,8 @@
 datadump/
 processed_subject_data/
 processed_plots_and_descriptives/
-
+pdfs/
+notes/ 
 
 # Ignore System Files
 .DS_Store
@@ -17,3 +18,9 @@ __pycache__/
 build/
 dist/
 *.spec
+
+# Ignore environment files
+NIHToolBox-Cognition_Windows
+DataDictionary_NIHTB-COGNITION.csv 
+
+

@@ -68,7 +68,10 @@ def verify_dataset(master_filename, suffix, id_col='PID'):
                 df_subj_reset[col] = pd.to_numeric(df_subj_reset[col], errors='coerce')
                 df_master_reset[col] = pd.to_numeric(df_master_reset[col], errors='coerce')
 
+        #######################
         # MAIN CHECK FOR DATA #
+        #######################
+        
         try:
             # check_dtype=False = Int vs Float comparison
             # check_exact=False = tiny floating point differences
@@ -77,7 +80,10 @@ def verify_dataset(master_filename, suffix, id_col='PID'):
         except AssertionError as e:
             errors.append(f"Subject {subj_id}: Data mismatch.\n    Details: {e}")
 
-    # Final Report
+    ################
+    # Final Report # 
+    ################
+
     if not errors:
         print(f"  [SUCCESS] Verified {checked_count} subjects. All data matches.")
     else:
@@ -87,11 +93,11 @@ def verify_dataset(master_filename, suffix, id_col='PID'):
         if len(errors) > 5:
             print(f"    ... and {len(errors)-5} more.")
 def main():
-    # Verify Scores
     verify_dataset('MASTER_SCORES-NIHTB.csv', '_scores.csv')
-    
-    # Verify Items 
+
     verify_dataset('MASTER_ITEMS-NIHTB.csv', '_items.csv')
 
 if __name__ == "__main__":
     main()
+
+
