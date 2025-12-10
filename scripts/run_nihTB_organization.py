@@ -1,7 +1,7 @@
 import nihTB_data_processing_functions as nih  
 
-RAW_DATA_DIR = 'datadump'  
-OUTPUT_DIR = 'processed_subject_data' 
+RAW_DATA_DIR = 'datadump' 
+OUTPUT_DIR = 'processed_subject_data'
 
 def main():
     print("STARTING NIH TOOLBOX DATA ORGANIZATION")

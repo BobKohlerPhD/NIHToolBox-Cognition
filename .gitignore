@@ -22,5 +22,6 @@ dist/
 # Ignore environment files
 NIHToolBox-Cognition_Windows
 DataDictionary_NIHTB-COGNITION.csv 
+Data-Full_NDAFormat.csv
 
 

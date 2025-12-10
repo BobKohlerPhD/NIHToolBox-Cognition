@@ -57,7 +57,7 @@ def verify_dataset(master_filename, suffix, id_col='PID'):
         df_subj_reset = df_subj.reset_index(drop=True)
         df_master_reset = df_master_subset.reset_index(drop=True)
         
-        # Harmonize data because of string vs. float mismatches (string "1.0" vs float 1.0)
+        # String and float mismatch (string "1.0" vs float 1.0)
         for col in df_subj_reset.columns:
             # Force to numeric
             is_subj_num = pd.api.types.is_numeric_dtype(df_subj_reset[col])
@@ -71,7 +71,7 @@ def verify_dataset(master_filename, suffix, id_col='PID'):
         #######################
         # MAIN CHECK FOR DATA #
         #######################
-        
+
         try:
             # check_dtype=False = Int vs Float comparison
             # check_exact=False = tiny floating point differences
