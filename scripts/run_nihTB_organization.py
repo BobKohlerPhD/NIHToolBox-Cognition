@@ -4,8 +4,6 @@ RAW_DATA_DIR = 'datadump'
 OUTPUT_DIR = 'processed_subject_data'
 
 def main():
-    print("STARTING NIH TOOLBOX DATA ORGANIZATION")
-
     # Process ScoresExport csv files 
     print("\n Processing ScoresExport Files...")
     scores_df = nih.load_data_by_pattern(RAW_DATA_DIR, 'ScoresExport*.csv')
@@ -17,7 +15,7 @@ def main():
         # Split Scores by Subject
         nih.split_into_subject_folders(scores_df, OUTPUT_DIR, "_scores.csv")
     else:
-        print("  - No Score data found. Moving to ItemExport files.")
+        print("  - No summary dcore data found. Moving to ItemExport files.")
 
 
     # Process ItemExport csv files
@@ -31,7 +29,7 @@ def main():
         # Split Items by Subject
         nih.split_into_subject_folders(items_df, OUTPUT_DIR, "_items.csv")
     else:
-        print("  - No Item data found.")
+        print("  - No trial buy trial data found.")
         
     print("\n **DATA PROCESSING COMPLETE**")
 
