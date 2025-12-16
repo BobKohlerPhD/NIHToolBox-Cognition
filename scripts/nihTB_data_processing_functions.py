@@ -3,7 +3,7 @@ import os
 import glob
 
 def load_data_by_pattern(input_dir, file_pattern):
-    #Function to load CSV files matching a pattern of 'ScoresExport*.csv' or 'ItemExport*.csv').
+    #Function to load CSV files matching a pattern of 'ScoresExport*.csv' or 'ItemExport*.csv')
     search_path = os.path.join(input_dir, file_pattern)
     files = glob.glob(search_path)
     
@@ -30,7 +30,7 @@ def load_data_by_pattern(input_dir, file_pattern):
 
 def save_master_file(df, output_dir, filename):
 
-    #Saves the master dataframe to the output directory.
+    #Saves master dataframe to output directory
     if df.empty:
         return
         
