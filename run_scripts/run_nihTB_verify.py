@@ -85,9 +85,9 @@ def verify_dataset(master_filename, suffix, id_col='PID'):
     ################
 
     if not errors:
-        print(f"  [SUCCESS] Verified {checked_count} subjects. All data matches.")
+        print(f" Verified {checked_count} subjects. All data matches.")
     else:
-        print(f"  [FAILURE] Found mismatches for {len(errors)} subjects:")
+        print(f" Found mismatches for {len(errors)} subjects:")
         for e in errors[:5]: 
             print(f"    ! {e}")
         if len(errors) > 5:
