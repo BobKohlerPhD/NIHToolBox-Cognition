@@ -247,7 +247,7 @@ if __name__ == "__main__":
     try:
         main_df = load_data(CSV_PATH)
         
-        # Generate Missing Row Report (NEW)
+        # Generate Missing Row Report
         generate_missing_row_report(main_df, OUTPUT_BASE)
 
         # Generate Error Report 
