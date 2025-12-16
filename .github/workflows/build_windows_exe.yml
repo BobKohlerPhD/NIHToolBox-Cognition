@@ -1,40 +1,44 @@
 name: Build Windows Exe
 
-# Trigger action whenever you push to the main branch
+# Trigger action when main branch push
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # Allows manual run from the actions tab
+  workflow_dispatch: # Allows actions tab run
 
 jobs:
   build:
-    runs-on: windows-latest  # Request Windows computer 
+    runs-on: windows-latest  # Get windows os 
 
     steps:
-    # 1. Check out for Windows 
+    # Checkout
     - uses: actions/checkout@v4
 
-    # 2. Install Python
+    # Install python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.11'
 
-    # 3. Install libraries
+    # Install libraries
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pandas numpy pyinstaller
 
-    # 4. Build Organizer Script
+    # Organizer run script 
     - name: Build Organizer Exe
       run: pyinstaller --onefile run_nihTB_organization.py
 
-    # 5. Build Verifier Script
+    # Verifier run script 
     - name: Build Verifier Exe
       run: pyinstaller --onefile run_nihTB_verify.py
+    
+    # NDA Formatting run script
+    - name: Build NDA Formatting Exe
+      run: pyinstaller --onefile run_nihTB_ndaformat.py
 
-    # 6. Upload finished .exe files for download
+    # Upload finished .exe files for download
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
